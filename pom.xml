@@ -3,7 +3,7 @@
   <parent>
     <groupId>edu.unc.mapseq</groupId>
     <artifactId>pipeline</artifactId>
-    <version>0.6.70</version>    
+    <version>0.6.71</version>    
   </parent>
   <name>MaPSeq :: Pipelines :: NCNEXUS Alignment</name>
   <modelVersion>4.0.0</modelVersion>
@@ -12,6 +12,9 @@
   <version>0.6.60-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>https://jdr0887.github.io/MaPSeq-Pipeline-NCNEXUS-Alignment</url>
+  <properties>
+    <maven.site.plugin.skip>false</maven.site.plugin.skip>    
+  </properties>  
   <organization>
     <name>RENCI</name>
     <url>http://www.renci.org/</url>
