@@ -2,13 +2,13 @@
   <parent>
     <groupId>edu.unc.mapseq.pipelines</groupId>
     <artifactId>ncnexus-alignment</artifactId>
-    <version>0.6.63-SNAPSHOT</version>
+    <version>0.6.63</version>
   </parent>
   <name>MaPSeq :: Pipelines :: NCNEXUS Alignment :: Web Service Impl</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.unc.mapseq.pipelines.ncnexus-alignment</groupId>
   <artifactId>ncnexus-alignment-ws-impl</artifactId>
-  <version>0.6.63-SNAPSHOT</version>
+  <version>0.6.63</version>
   <packaging>bundle</packaging>
   <properties>
     <maven.site.plugin.skip>true</maven.site.plugin.skip>    
