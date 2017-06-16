@@ -30,8 +30,8 @@ public interface NCNEXUSAlignmentService {
     public QualityControlInfo lookupQuantificationResults(@PathParam("sampleId") @WebParam(name = "sampleId") Long sampleId);
 
     @GET
-    @Path("/lookupIdentityInfoFromVCF/{sampleId}")
+    @Path("/identityCheck/{sampleId}")
     @WebMethod
-    public VCFResult lookupIdentityInfoFromVCF(@PathParam("sampleId") @WebParam(name = "sampleId") Long sampleId);
+    public VCFResult identityCheck(@PathParam("sampleId") @WebParam(name = "sampleId") Long sampleId);
 
 }

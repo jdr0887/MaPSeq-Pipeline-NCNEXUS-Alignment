@@ -73,8 +73,8 @@ public class NCNEXUSAlignmentServiceImpl implements NCNEXUSAlignmentService {
     }
 
     @Override
-    public VCFResult lookupIdentityInfoFromVCF(Long sampleId) {
-        logger.debug("ENTERING lookupIdentityInfoFromVCF(Long)");
+    public VCFResult identityCheck(Long sampleId) {
+        logger.debug("ENTERING identityCheck(Long)");
         if (sampleId == null) {
             logger.warn("sampleId is null");
             return null;
@@ -98,9 +98,9 @@ public class NCNEXUSAlignmentServiceImpl implements NCNEXUSAlignmentService {
         VCFResult ret = null;
         if (sampleFileDataSet != null) {
             for (FileData fileData : sampleFileDataSet) {
-                if (MimeType.TEXT_VCF.equals(fileData.getMimeType()) && fileData.getName().endsWith(".ic_snps.vcf")) {
+                if (MimeType.TEXT_VCF.equals(fileData.getMimeType()) && fileData.getName().endsWith(".ic.vcf")) {
                     File icSNPVCFFile = new File(fileData.getPath(), fileData.getName());
-                    logger.info("icSNPVCFFile file is: {}", icSNPVCFFile.getAbsolutePath());
+                    logger.info("identity check file is: {}", icSNPVCFFile.getAbsolutePath());
                     if (icSNPVCFFile.exists()) {
                         ret = parser.parse(icSNPVCFFile);
                     }
