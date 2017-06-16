@@ -31,6 +31,7 @@ import edu.unc.mapseq.module.core.RemoveCLI;
 import edu.unc.mapseq.module.sequencing.bwa.BWAMEMCLI;
 import edu.unc.mapseq.module.sequencing.fastqc.FastQCCLI;
 import edu.unc.mapseq.module.sequencing.fastqc.IgnoreLevelType;
+import edu.unc.mapseq.module.sequencing.freebayes.FreeBayesCLI;
 import edu.unc.mapseq.module.sequencing.picard.PicardAddOrReplaceReadGroupsCLI;
 import edu.unc.mapseq.module.sequencing.picard.PicardSortOrderType;
 import edu.unc.mapseq.module.sequencing.picard2.PicardCollectHsMetricsCLI;
@@ -66,6 +67,7 @@ public class NCNEXUSAlignmentWorkflow extends AbstractSequencingWorkflow {
         String readGroupPlatform = getWorkflowBeanService().getAttributes().get("readGroupPlatform");
         String baitIntervalList = getWorkflowBeanService().getAttributes().get("baitIntervalList");
         String targetIntervalList = getWorkflowBeanService().getAttributes().get("targetIntervalList");
+        String icSNPBed = getWorkflowBeanService().getAttributes().get("icSNPBed");
 
         WorkflowRunAttempt attempt = getWorkflowRunAttempt();
         WorkflowRun workflowRun = attempt.getWorkflowRun();
@@ -227,6 +229,18 @@ public class NCNEXUSAlignmentWorkflow extends AbstractSequencingWorkflow {
                 logger.info(samtoolsIndexJob.toString());
                 graph.addVertex(samtoolsIndexJob);
                 graph.addEdge(picardMarkDuplicatesJob, samtoolsIndexJob);
+
+                // new job
+                builder = SequencingWorkflowJobFactory.createJob(++count, FreeBayesCLI.class, attempt.getId(), sample.getId()).siteName(siteName);
+                File freeBayesOutput = new File(workflowDirectory, picardMarkDuplicatesOutput.getName().replace(".bam", ".ic.vcf"));
+                builder.addArgument(FreeBayesCLI.GENOTYPEQUALITIES).addArgument(FreeBayesCLI.REPORTMONOMORPHIC)
+                        .addArgument(FreeBayesCLI.BAM, picardMarkDuplicatesOutput.getAbsolutePath())
+                        .addArgument(FreeBayesCLI.VCF, freeBayesOutput.getAbsolutePath()).addArgument(FreeBayesCLI.FASTAREFERENCE, referenceSequence)
+                        .addArgument(FreeBayesCLI.TARGETS, icSNPBed);
+                CondorJob freeBayesJob = builder.build();
+                logger.info(freeBayesJob.toString());
+                graph.addVertex(freeBayesJob);
+                graph.addEdge(samtoolsIndexJob, freeBayesJob);
 
                 // new job
                 builder = SequencingWorkflowJobFactory.createJob(++count, PicardCollectHsMetricsCLI.class, attempt.getId(), sample.getId())
