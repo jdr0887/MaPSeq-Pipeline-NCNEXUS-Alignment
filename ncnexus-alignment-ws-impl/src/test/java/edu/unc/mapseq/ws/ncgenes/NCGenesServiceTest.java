@@ -41,7 +41,7 @@ public class NCGenesServiceTest {
         service.addPort(portQName, SOAPBinding.SOAP11HTTP_MTOM_BINDING, String.format("http://%s:%d/cxf/NCGenesService", host, 8181));
         NCNEXUSAlignmentService ncgenesService = service.getPort(NCNEXUSAlignmentService.class);
         // VCFResult results = ncgenesService.lookupIdentityInfoFromVCF(27357L);
-        VCFResult results = ncgenesService.lookupIdentityInfoFromVCF(1784685L);
+        VCFResult results = ncgenesService.identityCheck(1784685L);
         try {
             JAXBContext context = JAXBContext.newInstance(VCFResult.class);
             Marshaller m = context.createMarshaller();
